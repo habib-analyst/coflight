@@ -127,6 +127,14 @@ coflight certify my_matrix.json --models gpt-5,claude-opus-4.8,gemini-3.1-pro
 Any eval harness that emits per-model correctness works. Nothing in coflight
 is specific to the bundled dataset.
 
+If your organisation enforces Windows Application Control or WDAC, the
+generated `coflight.exe` launcher may be blocked even though the package
+installs cleanly. Run it as a module instead, which needs no launcher:
+
+```bash
+python -m coflight.cli certify data/matrix_marketE2.json
+```
+
 ## What the verdicts mean
 
 | verdict | meaning |

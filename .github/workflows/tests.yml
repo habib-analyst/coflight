@@ -1,0 +1,40 @@
+﻿name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Test
+        run: pytest -q
+
+  verify-findings:
+    # The numbers in README.md and FINDINGS.md are claims about the bundled
+    # data. Re-derive them so the docs cannot silently drift from the code.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Reproduce the headline numbers
+        run: |
+          python -m coflight.cli compare data/matrix_marketE2.json
+          python -m coflight.cli certify data/matrix_marketCG.json
+          python -m coflight.cli cost data/matrix_marketE2.json --pareto-only
