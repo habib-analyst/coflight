@@ -12,6 +12,7 @@ import pytest
 from conftest import build, from_error_sets
 from coflight.decision import decide
 from coflight.estimate import common_shock_fit, oracle_gain, pool_report, rank_models
+from coflight.matrix import load_matrix
 
 
 def test_ranking_is_shared_so_best_model_cannot_diverge():
@@ -95,3 +96,8 @@ def test_common_shock_returns_no_surprising_types():
         assert isinstance(shock[key], float), key
     assert isinstance(shock["identifiable"], bool)
     assert isinstance(shock["note"], str)
+
+def test_load_matrix_explains_a_missing_path():
+    """A bare FileNotFoundError sends people hunting; name the real cause."""
+    with pytest.raises(FileNotFoundError, match="bundled data"):
+        load_matrix("data/does_not_exist.json")

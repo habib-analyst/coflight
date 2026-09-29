@@ -138,6 +138,15 @@ def _query_sort_key(query_id: str) -> tuple[str, int]:
 
 def load_matrix(path: str | Path) -> Matrix:
     path = Path(path)
+    if not path.exists():
+        # A bare FileNotFoundError here is unhelpful: the most common cause is
+        # running the README's `data/...` example from outside a clone, since
+        # an installed package does not ship the matrices.
+        raise FileNotFoundError(
+            f"no outcome matrix at {path}. Pass a path to a JSON file mapping "
+            f"query_id -> model -> correctness, or clone the repository to use "
+            f"the bundled data under data/."
+        ) from None
     with path.open(encoding="utf-8") as fh:
         raw = json.load(fh)
 
