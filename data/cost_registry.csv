@@ -1,0 +1,19 @@
+run_id,approx_cost_usd,note
+# Metered against the OpenRouter ACCOUNT usage endpoint (an aggregator, not a per-provider source).
+# Per-run figures are sums of logged per-cell costs (price x tokens), cache-independent.
+matrix_stageA2,10.75,"15-model frontier pool x 480 q (Pillar A; gsm8k/mmlu/arc/math500)"
+matrix_hardA,4.44,"15-model frontier pool x 200 q (Pillar A hard; MMLU-Pro)"
+fusion_stageB2,8.00,"7 models x 400 q x 6 samples (Pillar B naive fusion)"
+fusion_eqq2_eqqA,8.00,"matched-quality 6/9-model bands x 200 q x 9 samples (Pillar B +0.027 + partition robustness; mostly cached)"
+cascade_stageC2,2.00,"L=gpt-5-nano x5 self-consistency + H=opus-4.8 x480 (Pillar C; 20-seed collapse re-run from cache)"
+matrix_churnD,6.92,"18-model generational pool x 150 q x 2 datasets (Pillar D longitudinal)"
+matrix_stageA,6.05,"legacy-generation pool robustness check (not a headline result)"
+CORE_PILLAR_SUBTOTAL,46.16,"sum of the Pillar A-D line items above (list-price meter); the 2026-06-15 OpenRouter /key ground-truth was 46.71, the ~0.55 gap being provider-side overhead the list-price meter omits."
+matrix_marketE,64.00,"MARKET-SCALE: 53-model x 20-family pool x up to 7 benchmarks (realizability law); 42.5k metered cells, hard-first."
+detrunc_marketE,2.26,"truncation control: 138 truncated all-wrong cells re-run at 32k tokens."
+matrix_marketGPQA,16.89,"second hard domain: GPQA-Diamond (graduate science) x 53-model market pool (two-regime contrast)."
+copula_dichotomy,0.00,"common-mode vs tail-dependence control (Clayton vs mixture); analytic simulation, no API calls."
+matrix_marketE2,27.62,"FRONTIER REFRESH net-marginal (67-model pool incl. gpt-5.5/glm-5.2/qwen3.7-max/grok-4.3/minimax-m3; shared cells cached from marketE/marketGPQA, not double-counted)."
+MARKET_SCALE_SUBTOTAL,110.77,"market-scale realizability + two-regime + frontier-refresh (net-marginal; cached cells not double-counted)."
+REPORTED_EXPERIMENTS_TOTAL,156.93,"CORE (46.16) + MARKET_SCALE net-marginal (110.77)."
+TOTAL_ACCOUNT_USAGE,261.78,"running OpenRouter account usage incl. ALL exploratory + superseded iteration (local meter; /key endpoint lags). Under the project budget cap."
