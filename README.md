@@ -84,6 +84,9 @@ coflight sweep data/matrix_marketE2.json --sizes 3 5 8 12 20 --trials 40
 
 # which models are actually worth buying
 coflight cost data/matrix_marketE2.json --pareto-only
+
+# cost-optimal per-dataset routing under a spend budget (see ROUTING.md)
+coflight route data/matrix_marketE2.json --budget 0.004 --frontier
 ```
 
 Example:
@@ -102,6 +105,22 @@ coflight certify  (matrix_marketE2.json, 52 models)
 
   VERDICT: WORTH BUILDING
 ```
+
+## Routing under the ceiling
+
+`coflight` measures the ceiling; `ROUTING.md` turns it into a policy.
+`coflight.routing` implements two policy classes: per-dataset model
+selection as an exact multiple-choice knapsack (with threshold structure via
+its Lagrangian relaxation), and disagreement-gated cascades whose gain is
+provably capped by `P(cheap wrong) - beta` -- beta prices the router.
+Gating signals are fit on train queries and scored on held-out test queries.
+
+Measured on the bundled data: per-dataset routing reaches 0.9283 accuracy,
+beating the best single model (0.8849) by +4.3pp (+2.8pp at identical spend);
+learned cascade gating beats cost-matched random gating by +2.3pp; beta is
+stable under bootstrap. The honest negative result is in `ROUTING.md`
+section 2: dataset-level routing captures only 39% of the oracle headroom --
+the rest needs query-level rescue prediction.
 
 ## Your own data
 

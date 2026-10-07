@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "coflight"
-version = "0.1.0"
+version = "0.3.0"
 description = "Co-failure ceiling estimation and cost break-even analysis for multi-model LLM systems"
 readme = "README.md"
 requires-python = ">=3.11"

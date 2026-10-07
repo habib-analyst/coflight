@@ -1,0 +1,16 @@
+budget,accuracy,cost,headroom_captured,selection
+1.3751775000000003e-05,0.41132075471698115,1.0773981132075473e-05,-4.254237288135594,gpqa=mistralai/mistral-nemo;math500=mistralai/mistral-nemo;mmlu_pro=inclusionai/ling-2.6-flash
+2.0627662500000003e-05,0.6018867924528302,1.5922320754716984e-05,-2.5423728813559334,gpqa=mistralai/mistral-nemo;math500=inclusionai/ling-2.6-flash;mmlu_pro=inclusionai/ling-2.6-flash
+3.0941493750000006e-05,0.6943396226415095,2.734258490566038e-05,-1.7118644067796611,gpqa=inclusionai/ling-2.6-flash;math500=inclusionai/ling-2.6-flash;mmlu_pro=qwen/qwen3-235b-a22b-2507
+4.6412240625e-05,0.7207547169811321,3.559571698113208e-05,-1.4745762711864407,gpqa=inclusionai/ling-2.6-flash;math500=inclusionai/ling-2.6-flash;mmlu_pro=ibm-granite/granite-4.1-8b
+6.96183609375e-05,0.7981132075471697,5.232643018867925e-05,-0.7796610169491536,gpqa=inclusionai/ling-2.6-flash;math500=inclusionai/ling-2.6-flash;mmlu_pro=openai/gpt-oss-120b
+0.00010442754140625001,0.8056603773584906,7.795145886792453e-05,-0.711864406779661,gpqa=inclusionai/ling-2.6-flash;math500=inclusionai/ling-2.6-flash;mmlu_pro=deepseek/deepseek-v3.2
+0.00015664131210937503,0.8150943396226416,0.00015546443924528304,-0.6271186440677966,gpqa=deepseek/deepseek-v3.2;math500=inclusionai/ling-2.6-flash;mmlu_pro=openai/gpt-oss-120b
+0.00023496196816406254,0.8547169811320755,0.00020876664754716987,-0.2711864406779661,gpqa=meta-llama/llama-4-maverick;math500=inclusionai/ling-2.6-flash;mmlu_pro=deepseek/deepseek-v3.2
+0.0011894949638305665,0.8603773584905661,0.0011419434150943396,-0.22033898305084745,gpqa=google/gemini-3.1-flash-lite;math500=deepseek/deepseek-chat-v3.1;mmlu_pro=moonshotai/kimi-k2.7-code
+0.0017842424457458499,0.8735849056603774,0.0017161585094339626,-0.1016949152542373,gpqa=google/gemini-3.1-flash-lite;math500=deepseek/deepseek-chat-v3.1;mmlu_pro=anthropic/claude-sonnet-4.6
+0.0026763636686187747,0.8773584905660378,0.002655405452830189,-0.06779661016949153,gpqa=meta-llama/llama-4-maverick;math500=qwen/qwen3-max;mmlu_pro=anthropic/claude-sonnet-4.6
+0.004014545502928162,0.8886792452830189,0.003697322169811321,0.03389830508474576,gpqa=google/gemini-3.1-flash-lite;math500=anthropic/claude-opus-4.8;mmlu_pro=anthropic/claude-sonnet-4.6
+0.006021818254392243,0.9075471698113208,0.006006875735849058,0.2033898305084746,gpqa=anthropic/claude-opus-4.8;math500=moonshotai/kimi-k2.7-code;mmlu_pro=anthropic/claude-sonnet-4.6
+0.00682538679245283,0.9132075471698115,0.006813845283018869,0.2542372881355942,gpqa=anthropic/claude-opus-4.8;math500=anthropic/claude-sonnet-4.6;mmlu_pro=anthropic/claude-sonnet-4.6
+inf,0.928301886792453,0.00972286603773585,0.3898305084745773,gpqa=anthropic/claude-opus-4.8;math500=anthropic/claude-opus-4.8;mmlu_pro=google/gemini-3.1-pro-preview

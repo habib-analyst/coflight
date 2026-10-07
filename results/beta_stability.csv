@@ -1,0 +1,4 @@
+dataset,n,beta,ci_low,ci_high,beta_half_a,beta_half_b
+gpqa,130,0.0,0.0,0.0,0.0,0.0
+math500,200,0.005,0.0,0.015,0.01,0.0
+mmlu_pro,200,0.005,0.0,0.015,0.01,0.0

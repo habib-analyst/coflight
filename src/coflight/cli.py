@@ -204,6 +204,46 @@ def cmd_cost(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_route(args: argparse.Namespace) -> int:
+    """Cost-optimal per-dataset routing under a spend budget.
+
+    Solves the multiple-choice knapsack exactly: one model per dataset,
+    maximizing expected accuracy subject to expected cost <= budget.
+    """
+    from coflight.routing import group_stats, knapsack_select, lagrangian_select
+
+    matrix = load_matrix(args.matrix)
+    pool = _load_pool(matrix, args.models)
+    sub = matrix.filter_datasets(args.dataset) if args.dataset else matrix
+    groups = group_stats(sub.restrict_models(pool), pool)
+
+    print(f"coflight route  ({sub.source}, {len(pool)} models, "
+          f"{len(groups)} groups)\n")
+    if args.budget is None:
+        res = knapsack_select(groups, float("inf"))
+        tag = "unconstrained (best accuracy per group)"
+    else:
+        res = knapsack_select(groups, args.budget)
+        tag = f"budget ${args.budget:.6f}/query"
+    if not res.feasible:
+        print(f"  infeasible: no selection fits {tag}")
+        return 1
+    print(f"  {tag}:")
+    for g in sorted(res.selection):
+        print(f"    {g:<10} -> {res.selection[g]}")
+    print(f"  expected accuracy {res.expected_accuracy:.4f} at "
+          f"${res.expected_cost:.6f}/query")
+
+    if args.frontier:
+        print("\n  frontier (lagrangian sweep):")
+        print(f"  {'lambda':>10} {'accuracy':>8} {'$/query':>10}")
+        for lam in [0.0, 1.0, 10.0, 100.0, 1000.0, 10000.0]:
+            r = lagrangian_select(groups, lam)
+            print(f"  {lam:>10.1f} {r.expected_accuracy:>8.4f} "
+                  f"{r.expected_cost:>10.6f}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="coflight", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -233,6 +273,14 @@ def main(argv: list[str] | None = None) -> int:
     common(p4)
     p4.add_argument("--pareto-only", action="store_true", help="non-dominated only")
     p4.set_defaults(func=cmd_cost)
+
+    p5 = sub.add_parser("route", help="cost-optimal per-dataset routing")
+    common(p5)
+    p5.add_argument("--budget", type=float, default=None,
+                    help="$/query cap (default: unconstrained)")
+    p5.add_argument("--frontier", action="store_true",
+                    help="also print the lagrangian frontier sweep")
+    p5.set_defaults(func=cmd_route)
 
     args = parser.parse_args(argv)
     return args.func(args)
